@@ -28,7 +28,7 @@ public class Code {
 
 	/**
 	 * <pre>
-	 * 등차 수열
+	 * 등차수열
 	 * 다음 등차 수열에 대하여 200번째 숫자까지의 합을 구하라.
 	 * 2, 8, 14, 20, 26, 32, ...
 	 * 
@@ -57,7 +57,80 @@ public class Code {
 	 * </pre>
 	 */
 	public void code03() {
-		
+		int r = 3;
+		int a = 2;
+		int s = a;
+		int n = 2;
+
+		do {
+			a = a * r;
+			s = s + a;
+			n = n + 1;
+		} while (!(n > 100));
+
+		System.out.println(s);
 	}
 
+	/**
+	 * <pre>
+	 * 피보나치 수열
+	 * 다음 피보나치 수열에 대하여 100번째 항까지의 합을 구하는 알고리즘을 제시하라.
+	 * 1, 1, 2, 3, 5, 8, 13, ...
+	 * </pre>
+	 */
+	public void code04() {
+		int a = 1;
+		int b = 1;
+		int sum = a + b;
+		int n = 2;
+		do {
+			int c = a + b;
+			sum = sum + c;
+			a = b;
+			b = c;
+			n = n + 1;
+		} while (!(n == 100));
+
+		System.out.println(sum);
+	}
+
+	/**
+	 * <pre>
+	 * 누승 활용 수열
+	 * 1부터 100까지의 누승의 합을 구하여 출력하는 알고리즘을 제시하라.
+	 * S = 1! + 2! + 3! + 4! + 5! + ... + 100!
+	 * </pre>
+	 */
+	public void code05() {
+		int n = 1;
+		int f = 1;
+		int sum = 1;
+		do {
+			n = n + 1;
+			f = f * n;
+			sum = sum + f;
+		} while (!(n == 100));
+
+		System.out.println(sum);
+	}
+
+	/**
+	 * <pre>
+	 * 제곱의 합
+	 * S = (100*1)^2 + (99*2)^2 + (98*3)^2 + ... + (2*99)^2 + (1*100)^2의 합을 구하여 출력하는 알고리즘을 제시하라.
+	 * </pre>
+	 */
+	public void code06() {
+		int sum = 0, a = 0, b = 0, c = 0;
+
+		do {
+			a = a + 1;
+			b = 101 - a;
+			c = a * b;
+			c = c * c;
+			sum = sum + c;
+		} while (a < 100);
+
+		System.out.println(sum);
+	}
 }
