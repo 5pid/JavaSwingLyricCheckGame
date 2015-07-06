@@ -1,8 +1,8 @@
-package algorithm;
+package main;
 
 import java.util.Scanner;
 
-import category01.Code;
+import algorithm.Chapter01;
 
 /**
  * @author yeongjun
@@ -112,10 +112,7 @@ public class Main {
 
 //		m.menuSelector();
 
-		Code code = new Code();
-		code.code01();
-		code.code02();
-		code.code03();
-		code.code04();
+		Chapter01 code = new Chapter01();
+		code.code08();
 	}
 }

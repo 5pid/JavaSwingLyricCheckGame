@@ -1,4 +1,4 @@
-package category01;
+package algorithm;
 
 /**
  * 기본 알고리즘 - 수열
@@ -6,7 +6,7 @@ package category01;
  * @author yeongjun
  *
  */
-public class Code {
+public class Chapter01 {
 
 	/**
 	 * <pre>
@@ -132,5 +132,50 @@ public class Code {
 		} while (a < 100);
 
 		System.out.println(sum);
+	}
+
+	/**
+	 * <pre>
+	 * '+,-' 교행 자연수 수열
+	 * S = 1 - 2 + 3 - 4 + 5 + ... - 100의 값을 구하여 출력하는 알고리즘을 제시하라.
+	 * </pre>
+	 */
+	public void code07() {
+		int n = 0, sum = 0;
+
+		do {
+			n = n + 1;
+			sum = sum + n;
+			n = n + 1;
+			sum = sum - n;
+		} while (!(n == 100));
+
+		System.out.println(sum);
+	}
+
+	/**
+	 * <pre>
+	 * '+,-' 교행 분수 수열
+	 * S = 1/2*3 - 2/3*4 + 3/4*5 - 4/5*6 + 5/6*7 + ... + 49/50*51의 값을 구하여 출력하는 알고리즘을 제시하라.
+	 * </pre>
+	 */
+	public void code08() {
+		float k = 0;
+		float s = 0;
+		float sw = 0;
+
+		do {
+			k = k + 1;
+			float l = k / ((k + 1) * (k + 2));
+			if (sw == 0) {
+				s = s + l;
+				sw = 1;
+			} else {
+				s = s - l;
+				sw = 0;
+			}
+		} while (!(k == 49));
+
+		System.out.println(s);
 	}
 }
