@@ -3,6 +3,7 @@ package main;
 import java.util.Scanner;
 
 import algorithm.Chapter01;
+import algorithm.Chapter02;
 
 /**
  * @author yeongjun
@@ -112,7 +113,7 @@ public class Main {
 
 //		m.menuSelector();
 
-		Chapter01 code = new Chapter01();
-		code.code08();
+		Chapter02 code = new Chapter02();
+		code.code04();
 	}
 }
