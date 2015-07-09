@@ -114,6 +114,7 @@ public class Main {
 //		m.menuSelector();
 
 		Chapter02 code = new Chapter02();
-		code.code04();
+//		code.code04();
+		code.excuteAlgorithm();
 	}
 }
