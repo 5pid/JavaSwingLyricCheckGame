@@ -31,7 +31,7 @@ public class Chapter02 extends Chapter {
 			}
 		}
 
-		obj.code06();
+		obj.code08();
 
 	}
 
@@ -252,25 +252,72 @@ public class Chapter02 extends Chapter {
 	 * </pre>
 	 */
 	private void code07() {
+		int tn = 0;
+		for (int n = 4; n <= 500; n++) {
+			int sum = 0;
+			int k = n / 2;
+			for (int j = 1; j <= k; j++) {
+				int r = n % j;
+				if (r == 0) {
+					sum = sum + j;
+				}
+			}
 
+			if (n == sum) {
+				System.out.println(n);
+				tn = tn + 1;
+			}
+		}
+		System.out.println(tn);
 	}
 
 	/**
-	 * <pre>
+	 * 최대공약수와 최소공배수
 	 * 
+	 * <pre>
+	 * 다음과 같은 유클리드 호제법에 의하여 두 정수 x, y의 최대공약수(gcd)를 구하는 알고리즘을 제시하라.
+	 * 1. gcd(x,y) = gcd(x,y)			x < y 일 경우
+	 * 2. gcd(x,y) = y					x >= y이면서 mod(x,y)=0일 경우
+	 * 3. gcd(x,y) = gcd(y, mod(x,y))	그 외(즉, x >= y이면서 mod(x,y) != 0일 경우)
 	 * </pre>
 	 */
 	private void code08() {
+		int x = getRandomInteger(0, 100);
+		int y = getRandomInteger(0, 100);
+		System.out.println("x:" + x + " / y:" + y);
 
+		if (!(x >= y)) {
+			int temp = x;
+			x = y;
+			y = temp;
+		}
+
+		while (true) {
+			int m = x % y;
+			if (m == 0) {
+				break;
+			}
+			x = y;
+			y = m;
+		}
+		System.out.println(y);
 	}
 
 	/**
-	 * <pre>
+	 * 근사값
 	 * 
+	 * <pre>
+	 * 배열 a(100)의 원소 100개는 절대값이 500 이하이다. 이 중에서 
+	 * 정수 33에 가까운 근사값을 찾아 해당 원소의 첨자를 출력하는 알고리즘을 제시하라.
 	 * </pre>
 	 */
 	private void code09() {
-
+		int[] a = new int[100];
+		int cha; // 어떤 배열 원소의 값과 33의 차이
+		int minCha; // 100개의 원소 모두에 대한 cha의 값들 중 가장 작은 값
+		int ans; // minCha 값을 갱신시키는 배열 원소의 첨자
+		
+		
 	}
 
 	/**
