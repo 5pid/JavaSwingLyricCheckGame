@@ -31,7 +31,7 @@ public class Chapter02 extends Chapter {
 			}
 		}
 
-		obj.code08();
+		obj.code10();
 
 	}
 
@@ -313,19 +313,69 @@ public class Chapter02 extends Chapter {
 	 */
 	private void code09() {
 		int[] a = new int[100];
+
+		for (int i = 0; i < 100; i++) {
+			a[i] = getRandomInteger(-500, 500);
+		}
+
 		int cha; // 어떤 배열 원소의 값과 33의 차이
 		int minCha; // 100개의 원소 모두에 대한 cha의 값들 중 가장 작은 값
 		int ans; // minCha 값을 갱신시키는 배열 원소의 첨자
-		
-		
+
+		minCha = 533;
+		int n = 0;
+		ans = n;
+
+		do {
+			if (a[n] >= 33) {
+				cha = a[n] - 33;
+			} else {
+				cha = 33 - a[n];
+			}
+
+			if (cha < minCha) {
+				minCha = cha;
+				ans = n;
+			}
+			n = n + 1;
+		} while (!(n >= 100));
+
+		System.out.println(ans);
 	}
 
 	/**
-	 * <pre>
+	 * 10진수와 2진수의 변환
 	 * 
+	 * <pre>
+	 * 다음 조건을 고려하여 2진수를 10진수로 변환하는 알고리즘을 제시하라.
+	 * - 변환할 2진수는 크기가 8인 배열 T에 저장되어 제공된다.
+	 * - 첫 번째 비트 T(1)은 2진수의 부호를 나타낸다. T(1)이 0이면 양수, 1이면 음수이다.
+	 * - 첫 번째 비트 T(1)의 값이 1인 음수의 경우, 2의 보수에 의하여 크기가 표현된다.
+	 * - 함수 ABS(X)는 X의 절댓값을 계산해주는 함수이다.
+	 * - 함수 POWER(X,Y)는 x의 y제곱, 즉 X^Y을 계산해주는 함수이다.
 	 * </pre>
 	 */
 	private void code10() {
+		int[] t = new int[8]; // 입력값
+		int[] c = new int[8]; // 1의 보수를 저장할 임시 배열 변수
+		int d; // 10진수로 변환될 값을 보관하는 변수
+		int sign; // 변환할 2진수가 양수인지 음수인지를 나타내는 변수
+		int b; // 감수 1을 나타내는 변수
+		int k; // 배열 변수의 인덱스용 변수이자 반복 구조용 변수
+		int t1, t2; // k번째 원소 t(k)의 10진수 값을 계산하여 저장하는 임시 변수ㄹ
+
+		for (int i = 0; i < 8; i++) {
+			t[i] = getRandomInteger(0, 1);
+			System.out.print(t[i]);
+		}
+		System.out.println();
+
+		d = 0;
+		sign = 1;
+		
+		if(t[0] == 0) {
+			
+		}
 
 	}
 
