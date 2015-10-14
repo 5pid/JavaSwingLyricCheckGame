@@ -37,8 +37,13 @@ public class View extends JFrame {
 			"/images/Pause.png"));
 
 	/**
-	 * 파일명, 가수명, 프로그레스, 시간, 재생 등 단추 인터페이스 가사 화면 추가
-	 *
+	 * 중앙화면
+	 * 
+	 * <pre>
+	 * - 제목/가수 
+	 * - 재생 등 각종 정보(프로그래스, 정지, ...)
+	 * - 가사 화면
+	 * </pre>
 	 */
 	public class TopPanel extends JPanel {
 		private JPanel _notes;
@@ -48,16 +53,11 @@ public class View extends JFrame {
 
 		private Map<String, String> _labels;
 
-		final int height = 200;
+		final int height = View.HEIGHT;
 		final int width = View.WIDTH - 200;
 
 		@SuppressWarnings("serial")
 		TopPanel(EventListener listener) {
-
-			// 레이아웃 설정
-			setPreferredSize(new Dimension(width, height));
-			setLayout(new BorderLayout());
-
 			// 초기화
 			_labels = new HashMap<String, String>();
 			_labels.put("title", "<nothing>");
@@ -141,17 +141,21 @@ public class View extends JFrame {
 
 			};
 
+			// 레이아웃 추가
 			_lyric = new JPanel();
 			_top = new JPanel();
 
-			// 레이아웃 추가
 			_top.setLayout(new BorderLayout());
 			_top.add(_notes, BorderLayout.NORTH);
 			_top.add(_controls, BorderLayout.CENTER);
 
+			setLayout(new BorderLayout());
+			setPreferredSize(new Dimension(width, height));
+
 			add(_top, BorderLayout.NORTH);
 			add(_lyric, BorderLayout.CENTER);
 
+			// check view
 			_lyric.setBorder(BorderFactory.createLineBorder(Color.black));
 			_top.setBorder(BorderFactory.createLineBorder(Color.black));
 			_controls.setBorder(BorderFactory.createLineBorder(Color.black));
