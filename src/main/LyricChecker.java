@@ -13,15 +13,21 @@ import java.util.StringTokenizer;
  */
 public class LyricChecker {
 	ArrayList<String> lyric; // 단어별로 나눈 가사
+	ArrayList<String> lyric_blank; // 단어별로 나눈 가사
 	HashMap<String, String> filePath; // 가사파일 경로 저장변수
-	HashMap<Integer, String> checkMap; // 정답 저장공간
+	HashMap<Integer, String> checkMap; // 가사파일 경로 저장변수
+	ArrayList<String> checkList = null; // 정답 저장공간
 
 	String content;
-	
+	String content_answer;
+	String content_blank;
+
 	public LyricChecker(String fileName) {
-//		String content = null;
+		// String content = null;
 		FileListLoader fl = FileListLoader.INSTANCE;
 		filePath = fl.getsLyricFileMap();
+		checkList = new ArrayList<>();
+		checkMap = new HashMap<>();
 
 		// 먼저 파일 있는 지 확인
 		try {
@@ -35,7 +41,6 @@ public class LyricChecker {
 			}
 
 			content = sb.toString();
-
 		} catch (Exception e) {
 			// 파일이 없거나 에러난 경우
 			e.printStackTrace();
@@ -43,7 +48,8 @@ public class LyricChecker {
 		}
 
 		// 가사를 리스트에 저장하기
-		String token = "…|~| |\n|?|.|,|)|(";
+		// String token = "…|~| |\n|?|.|,|)|(";
+		String token = "…|~| |?|.|,|)|(|:|-";
 		StringTokenizer stkn = new StringTokenizer(content, token);
 		lyric = new ArrayList<String>();
 
@@ -52,22 +58,62 @@ public class LyricChecker {
 			lyric.add(s);
 		}
 
+		if (lyric.size() > 1) {
+			// 랜덤으로 4개 빼기
+			int size = 0;
+			while (true) {
+				int index = (int) (Math.random() * lyric.size());
+				String s = lyric.get(index);
+				if (s.length() > 5) {
+					checkList.add(s);
+					checkMap.put(index, s);
+					size++;
+					if (size == 4) {
+						break;
+					}
+				}
+
+			}
+
+			// 빈칸 들어간 것 만들기
+			StringBuilder sb = new StringBuilder(1024);
+			int idx = 1;
+
+			sb.append("<pre>");
+			for (int i = 0; i < lyric.size(); i++) {
+				StringBuffer str = new StringBuffer(lyric.get(i));
+				if (checkMap.get(i) != null) {
+					System.out.println(str.toString());
+					StringBuffer qstr = new StringBuffer();
+					qstr.append("<b><i><font color=\"red\">");
+					qstr.append(idx + ".");
+					for (int c = 0; c < str.length(); c++) {
+						qstr.append("_");
+					}
+					qstr.append("</font></i></b>");
+					idx++;
+
+					checkList.add(checkMap.get(i));
+					str = qstr;
+				} else {
+				}
+				sb.append(str + " ");
+			}
+			sb.append("</pre>");
+			content_blank = sb.toString();
+		} else {
+			content_blank = content;
+		}
+
 	}
 
 	/**
 	 * 출력할 가사 가져오기
 	 */
-	public String getLyric() {
-		StringBuilder sb = new StringBuilder(1024);
-		sb.append("<pre>");
-		for (String line : lyric) {
-			if (line.contains("\n")) {
-			}
-			sb.append(line + " ");
-		}
-		sb.append("</pre>");
-//		return sb.toString();
-		return "<pre>" + content + "</pre>";
+	public String getLyric_blank() {
+		return content_blank;
+		// 임시 스샷용
+		// return "<pre>" + content + "</pre>";
 	}
 
 	/**
@@ -79,6 +125,16 @@ public class LyricChecker {
 		} catch (Exception e) {
 		}
 		return true;
+	}
+
+	public Object[][] getResultDates(ArrayList<String> userInput) {
+		Object[][] result = new Object[][] {
+				{ 1, checkList.get(0), userInput.get(0), checkList.get(0).equalsIgnoreCase(userInput.get(0)) },
+				{ 2, checkList.get(1), userInput.get(1), checkList.get(1).equalsIgnoreCase(userInput.get(1)) },
+				{ 3, checkList.get(2), userInput.get(2), checkList.get(2).equalsIgnoreCase(userInput.get(2)) },
+				{ 3, checkList.get(3), userInput.get(3), checkList.get(3).equalsIgnoreCase(userInput.get(3)) } };
+
+		return result;
 	}
 
 }

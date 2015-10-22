@@ -7,22 +7,26 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
@@ -83,6 +87,7 @@ public class View extends JFrame {
 						jlabels[TITLE].setText(_labels.get("title"));
 					}
 				}
+
 			};
 
 			// 주요 화면의 컨트롤 부분
@@ -177,6 +182,7 @@ public class View extends JFrame {
 								}
 							}
 						}, BorderLayout.SOUTH);
+
 					}
 
 					@Override
@@ -187,6 +193,7 @@ public class View extends JFrame {
 							lyricScroll.getVerticalScrollBar().setValue(0);
 						}
 					}
+
 				};
 			} catch (BadLocationException | IOException e) {
 				e.printStackTrace();
@@ -200,6 +207,20 @@ public class View extends JFrame {
 
 			// check view
 			// _notes.setBorder(BorderFactory.createLineBorder(Color.black));
+
+		}
+
+		// 입력한 답변 가져오기
+		public ArrayList<String> getInputValue() {
+			ArrayList<String> s = new ArrayList<>();
+			System.out.println("=====================");
+			System.out.println("getInputValue");
+			for (int i = 0; i < 4; i++) {
+				s.add(answer[i].getText());
+				System.out.println(answer[i].getText());
+			}
+			System.out.println("=====================");
+			return s;
 		}
 
 		/**
@@ -290,7 +311,7 @@ public class View extends JFrame {
 		 * 진짜 리스트뷰
 		 */
 		class ListPanel extends JPanel {
-			private JList list;
+			private JList list = null;
 			private DefaultListModel listModel;
 
 			public ListPanel(MouseListener listner) {
@@ -310,11 +331,87 @@ public class View extends JFrame {
 				add(listScrollPane, BorderLayout.CENTER);
 			}
 
+			// 테스트중
+			public void sortItems(MouseListener listner, int how) {
+				// how가 1이면 오름차순, 2이면 내림차순
+				if (list != null) {
+					remove(list);
+				}
+
+				FileListLoader fileList = FileListLoader.INSTANCE;
+				list = new JList(fileList.getListModel());
+
+				// 더블 클릭된 것 확인하기
+				list.addMouseListener(listner);
+
+				list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+				list.setSelectedIndex(0);
+				list.setVisibleRowCount(5);
+				JScrollPane listScrollPane = new JScrollPane(list);
+
+				add(listScrollPane, BorderLayout.CENTER);
+
+			}
+
+		}
+	}
+
+	/**
+	 * 점수확인판
+	 */
+	public class CheckDialog extends JDialog {
+
+		private String[] columns = new String[] { "문제", "정답", "입력값", "정답확인" };
+		private final Class[] columnClass = new Class[] { Integer.class, String.class, String.class, Boolean.class };
+		JPanel panel = null;
+
+		void initUI(Object[][] data) {
+			if (panel != null) {
+				remove(panel);
+			}
+			panel = new JPanel() {
+				{
+					DefaultTableModel model = new DefaultTableModel(data, columns) {
+
+						@Override
+						public boolean isCellEditable(int row, int column) {
+							return false;
+						}
+
+						@Override
+						public Class<?> getColumnClass(int columnIndex) {
+							return columnClass[columnIndex];
+						}
+					};
+
+					model.fireTableDataChanged();
+
+					JTable table = new JTable(model);
+					table.repaint();
+
+					add(new JScrollPane(table) {
+						{
+							setPreferredSize(new Dimension(400, 90));
+						}
+					});
+
+					pack();
+				}
+			};
+			setLayout(new BorderLayout());
+			setLocationRelativeTo(null);
+			setSize(new Dimension(410, 140));
+			setTitle("정답확인");
+
+			add(panel);
+
+			setVisible(true);
 		}
 	}
 
 	public TopPanel topPanel;
 	public ListControlPanel listPanel;
+	public CheckDialog checkDialog;
 
 	public View(EventListener listner, MouseListener mListner) {
 		super("JAVA MP3 player");
@@ -327,6 +424,7 @@ public class View extends JFrame {
 
 				add(topPanel = new TopPanel(listner), BorderLayout.CENTER);
 				add(listPanel = new ListControlPanel(listner, mListner), BorderLayout.EAST);
+				checkDialog = new CheckDialog();
 				setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 				// 화면 가운데 띄우기

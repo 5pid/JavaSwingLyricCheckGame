@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
-import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JButton;
@@ -50,6 +50,19 @@ class Controller implements ActionListener, MouseListener {
 					} else {
 
 					}
+					break;
+				case "check":
+					// 정답확인
+					ArrayList<String> userInputValue = view.topPanel.getInputValue();
+					view.checkDialog.initUI(lChecker.getResultDates(userInputValue));
+					break;
+				case "asc":
+					// 오름차순 정렬
+					System.out.println("asc");
+					break;
+				case "desc":
+					// 내림차순 정렬
+					break;
 				default:
 					System.out.println("mur-r-r-r...");
 					break;
@@ -72,13 +85,11 @@ class Controller implements ActionListener, MouseListener {
 			if (player.isStopped()) {
 				player = new MP3Player(new File(itemsMap.get(item)));
 				lChecker = new LyricChecker(item);
-				String lyric = lChecker.getLyric();
+				String lyric = lChecker.getLyric_blank();
 
 				view.topPanel.updateTitle(item);
 				view.topPanel.updateLyric(lyric);
-				
-				System.out.println(lyric);
-				
+
 				player.play();
 			} else if (player.isPaused()) {
 				player.play();
@@ -87,12 +98,11 @@ class Controller implements ActionListener, MouseListener {
 				player.stop();
 				player = new MP3Player(new File(itemsMap.get(item)));
 				lChecker = new LyricChecker(item);
-				String lyric = lChecker.getLyric();
+				String lyric = lChecker.getLyric_blank();
 
 				view.topPanel.updateTitle(item);
 				view.topPanel.updateLyric(lyric);
-				System.out.println(lyric);
-				
+
 				player.play();
 			}
 
