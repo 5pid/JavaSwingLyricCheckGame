@@ -10,6 +10,19 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
 
+/**
+ * @author Yeong-jun
+ *
+ */
+
+/**
+ * @author Yeong-jun
+ *
+ */
+/**
+ * @author Yeong-jun
+ *
+ */
 public enum FileListLoader {
 	INSTANCE;
 
@@ -30,12 +43,19 @@ public enum FileListLoader {
 	/**
 	 * 파일명들을 리스트패널에 넣어줄 수 있도록 변환하기
 	 */
-	public ListModel getListModel() {
+	public ListModel getListModel(int how) {
 		DefaultListModel listModel;
 		listModel = new DefaultListModel();
 
 		List<String> list = new ArrayList<String>(mp3PathMap.keySet());
-		Collections.sort(list);
+
+		// list = quicksort(list, how);
+		if (how == 1) {
+			Collections.sort(list);
+		} else {
+			Collections.sort(list, Collections.reverseOrder());
+		}
+
 		System.out.println();
 		for (String s : list) {
 			listModel.addElement(s);
@@ -50,6 +70,58 @@ public enum FileListLoader {
 
 	public HashMap getsLyricFileMap() {
 		return lyricPathMap;
+	}
+
+	/**
+	 * @param list
+	 * @param how
+	 *            - 1 오름차순, 2 - 내림차순
+	 * @return
+	 */
+	private List<String> quicksort(List<String> input, int how) {
+
+		if (input.size() <= 1) {
+			return input;
+		}
+
+		int middle = (int) Math.ceil((double) input.size() / 2);
+		String pivot = input.get(middle);
+
+		List<String> less = new ArrayList<String>();
+		List<String> greater = new ArrayList<String>();
+
+		for (int i = 0; i < input.size(); i++) {
+			if (input.get(i).compareTo(pivot) < 0) {
+				if (i == middle) {
+					continue;
+				}
+				less.add(input.get(i));
+			} else {
+				greater.add(input.get(i));
+			}
+		}
+
+		return concatenate(quicksort(less, how), pivot, quicksort(greater, how));
+	}
+
+	/**
+	 * 퀵정렬에 사용할 메서드
+	 */
+	private List<String> concatenate(List<String> less, String pivot, List<String> greater) {
+
+		List<String> list = new ArrayList<String>();
+
+		for (int i = 0; i < less.size(); i++) {
+			list.add(less.get(i));
+		}
+
+		list.add(pivot);
+
+		for (int i = 0; i < greater.size(); i++) {
+			list.add(greater.get(i));
+		}
+
+		return list;
 	}
 
 	/**

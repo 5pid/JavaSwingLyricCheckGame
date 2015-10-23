@@ -310,7 +310,7 @@ public class View extends JFrame {
 		/**
 		 * 진짜 리스트뷰
 		 */
-		class ListPanel extends JPanel {
+		public class ListPanel extends JPanel {
 			private JList list = null;
 			private DefaultListModel listModel;
 
@@ -318,7 +318,7 @@ public class View extends JFrame {
 				super(new BorderLayout());
 
 				FileListLoader fileList = FileListLoader.INSTANCE;
-				list = new JList(fileList.getListModel());
+				list = new JList(fileList.getListModel(1));
 
 				// 더블 클릭된 것 확인하기
 				list.addMouseListener(listner);
@@ -339,7 +339,7 @@ public class View extends JFrame {
 				}
 
 				FileListLoader fileList = FileListLoader.INSTANCE;
-				list = new JList(fileList.getListModel());
+				list = new JList(fileList.getListModel(how));
 
 				// 더블 클릭된 것 확인하기
 				list.addMouseListener(listner);
